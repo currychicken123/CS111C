@@ -38,13 +38,28 @@ public class ArrayFrontBackCappedList<T> implements FrontBackCappedListInterface
     }
 
     public T removeFront() {
-        // Code here
-        return null;
+        T removeItem = null;
+        if(!isEmpty()){
+            removeItem = list[0];
+            numberOfElements--;
+            for(int i = 0; i<numberOfElements; i++){
+                list[i] = list[i+1];
+            }
+        }
+        return removeItem;
     }
 
     public T removeBack() {
-        // Code here
-        return null;
+        T removeItem = null;
+
+        if(!isEmpty()){
+            removeItem = list[numberOfElements-1];
+            numberOfElements--;
+            for(int i = 0; i<numberOfElements; i++){
+                list[i] = list[i];
+            }
+        }
+        return removeItem;
     }
 
 
@@ -72,17 +87,50 @@ public class ArrayFrontBackCappedList<T> implements FrontBackCappedListInterface
 
     @Override
     public T getEntry(int givenPosition) {
-        return null;
+        if(givenPosition>=0 && givenPosition<=numberOfElements){
+            return list[givenPosition];
+        }
+        else{
+            return null;
+        }
     }
 
     @Override
     public int indexOf(T anEntry) {
-        return 0;
+        int index = 0;
+        if(!this.contains(anEntry)){
+            index = -1;
+        }
+        else{
+            while(index < numberOfElements){
+                if(list[index].equals(anEntry)){
+                    return index;
+                }
+                else{
+                    index++;
+                }
+            }
+        }
+        return index;
     }
 
     @Override
     public int lastIndexOf(T anEntry) {
-        return 0;
+        int lastIndex = numberOfElements-1;
+        if(!this.contains(anEntry)){
+            lastIndex = -1;
+        }
+        else{
+            while(lastIndex>=0){
+                if(list[lastIndex].equals(anEntry)){
+                    return lastIndex;
+                }
+                else{
+                    lastIndex--;
+                }
+            }
+        }
+        return lastIndex;
     }
 
     @Override
@@ -111,18 +159,12 @@ public class ArrayFrontBackCappedList<T> implements FrontBackCappedListInterface
 
     @Override
     public boolean isFull() {
-        boolean result = true;
-        if(isEmpty()){
-            result = false;
-        }
-        else{
-            for(int i = 0; i<= list.length-1; i++){
-                if(list[i] == null){
-                    result = false;
-                }
+        if (!isEmpty()) {
+            if (list.length == numberOfElements) {
+                return true;
             }
         }
-        return result;
+        return false;
     }
 
     @Override
