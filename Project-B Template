@@ -1,61 +1,73 @@
+import java.util.*;
 
 public class ArrayFrontBackCappedList<T> implements FrontBackCappedListInterface<T> {
 
     private T [] list;
     private int numberOfElements;
 
-    public ArrayFrontBackCappedList(int) {
-        // Code here
-    }
-
-    public boolean addFront(T) {
-        // Code here
-    }
-
-    public boolean addBack(T) {
-        // Code here
+    public ArrayFrontBackCappedList(int capacity) {
+        this.list = (T[]) new Object[capacity];
+        this.numberOfElements = 0;
     }
 
     @Override
     public boolean addFront(T newEntry) {
-        return false;
+        if (isFull()) {
+            return false;
+        }
+        else {
+            for (int i = numberOfElements-1; i >= 0; i--) {
+                list[i+1] = list[i];
+            }
+            list[0] = newEntry;
+            numberOfElements++;
+            return true;
+        }
     }
 
     @Override
     public boolean addBack(T newEntry) {
-        return false;
+        if (isFull()) {
+            return false;
+        }
+        else {
+            list[numberOfElements] = newEntry;
+            numberOfElements++;
+            return true;
+        }
     }
 
     public T removeFront() {
         // Code here
+        return null;
     }
 
     public T removeBack() {
         // Code here
+        return null;
     }
 
-    public boolean contains(T) {
-        // Code here
-    }
 
-    public int indexOf(T) {
-        // Code here
-    }
-
-    public int lastIndexOf(T) {
-        // Code here
-    }
-
-    public T getEntry(int) {
-        // Code here
-    }
-
+    @Override
     public String toString() {
-        // Code here
+        T[] tempList = (T[]) new Object[numberOfElements];
+        T temp;
+        if(!isEmpty()){
+            for (int i = 0; i < numberOfElements; i++) {
+                tempList[i] = list[i];
+            }
+        }
+        return "size=" + this.size() + ";" +
+                " capacity=" + this.list.length + "; " +
+                Arrays.toString(tempList);
     }
 
+    @Override
     public void clear() {
-        // Code here
+        for(int i =0; i<=list.length-1 ; i++){
+            list[i] = null;
+        }
+        numberOfElements = 0;
     }
 
     @Override
@@ -75,19 +87,56 @@ public class ArrayFrontBackCappedList<T> implements FrontBackCappedListInterface
 
     @Override
     public boolean contains(T anEntry) {
-        return false;
+        boolean found = false;
+        int index = 0;
+        while (!found && (index < numberOfElements)) {
+            if (anEntry.equals(list[index]))
+                found = true;
+            index++;
+        }
+        return found;
     }
 
+    @Override
     public boolean isEmpty() {
-        // Code here
+        boolean result;
+        if(size() ==0){
+            result = true;
+        }
+        else {
+            result = false;
+        }
+        return result;
     }
 
+    @Override
     public boolean isFull() {
-        // Code here
+        boolean result = true;
+        if(isEmpty()){
+            result = false;
+        }
+        else{
+            for(int i = 0; i<= list.length-1; i++){
+                if(list[i] == null){
+                    result = false;
+                }
+            }
+        }
+        return result;
     }
 
+    @Override
     public int size() {
-        // Code here
+        return this.numberOfElements;
+    }
+
+    private boolean checkCapacity(int capacity) {
+        if (capacity >= this.list.length) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 }
